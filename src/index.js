@@ -9,7 +9,10 @@ function Square(props) {
     </button>
   );
 }
-
+function checkNull(a) {
+  if (a == null) return true;
+  return false;
+}
 class Board extends React.Component {
   renderSquare(i) {
     return (
@@ -64,6 +67,14 @@ class Game extends React.Component {
       return;
     }
     squares[i] = this.state.xIsNext ? "X" : "O";
+    if (squares.filter((e) => e == null).length > 1) {
+      var x;
+      do {
+        x = Math.floor(Math.random() * 9);
+      } while (squares[x]);
+      squares[x] = !this.state.xIsNext ? "X" : "O";
+    } else {
+    }
     this.setState({
       history: history.concat([
         {
@@ -71,7 +82,7 @@ class Game extends React.Component {
         },
       ]),
       stepNumber: history.length,
-      xIsNext: !this.state.xIsNext,
+      xIsNext: this.state.xIsNext,
     });
   }
   jumpTo(step) {
